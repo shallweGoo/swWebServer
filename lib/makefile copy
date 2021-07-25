@@ -1,0 +1,21 @@
+CXX ?= g++
+
+DEBUG ?= 1
+ifeq ($(DEBUG), 1)
+    CXXFLAGS += -g
+else
+    CXXFLAGS += -O2
+endif
+
+src = $(wildcard ./*.cpp ./log/*.cpp ./CGImysql/*.cpp ./timer/*.cpp ./http_module/*.cpp ./thread_pool/thread_pool.h)
+
+#obj = $(patsubst %.cpp %.o,&(src))
+
+AUX =-lpthread -std=c++11 -lmysqlclient
+
+server:$(src)
+	$(CXX) $^ -o $@ $(CXXFLAGS) $(AUX)
+
+.PHONY: clean
+clean:
+	-rm -rf $@ 
